@@ -1,0 +1,27 @@
+// Prisma schema for the expense tracker API.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Scaffolding model. Mirrors the shape in packages/shared (CreateExpenseInput).
+// Adjust fields and add relations as the domain grows, then run:
+//   npm run prisma:migrate -w api
+model Expense {
+  id        String   @id @default(uuid())
+  title     String
+  amount    Decimal  @db.Decimal(12, 2)
+  category  String
+  note      String?
+  spentAt   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("expenses")
+}
